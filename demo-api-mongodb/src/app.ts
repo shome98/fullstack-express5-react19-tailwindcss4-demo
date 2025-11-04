@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import connectToDatabase from "./db/connect.mongo";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,10 @@ app.use(cookieParser());
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
+
+connectToDatabase()
+  .then(() => console.log("✅ Connected to database"))
+  .catch((error) => console.log("❌ Database connection Failed with ", error));
 
 app.listen(port, () => {
   console.log(`Server running on port ${port} http://localhost:${port}`);
